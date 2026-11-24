@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meridian · Locked in up front. Released on approval. Paid anywhere.</title>
+<meta name="description" content="Meridian lets platforms guarantee pay for contractors abroad: locked in up front, released on approval, paid anywhere.">
+<meta property="og:title" content="Meridian">
+<meta property="og:description" content="Locked in up front. Released on approval. Paid anywhere.">
+<meta property="og:image" content="https://anirood2.github.io/meridian/poster.jpg">
+<meta name="theme-color" content="#04070a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--go:#2ff0b0;--ink:#eef2ee;--dim:#9fb0a8;--bg:#04070a}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit}
+.stage{position:fixed;inset:0}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+video::cue{font-family:Inter,sans-serif;font-size:clamp(15px,2.2vw,26px);background:rgba(4,7,10,.72);color:#fff}
+
+/* intro */
+.intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:max(28px,6vw);overflow:hidden;transition:opacity .6s,visibility .6s}
+.intro::before{content:"";position:absolute;inset:-5%;background:url(poster.jpg) center/cover;filter:blur(18px) brightness(.35) saturate(1.2);animation:drift 24s ease-in-out infinite alternate}
+.intro::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 500px at 75% 20%,rgba(47,240,176,.16),transparent 60%),radial-gradient(700px 400px at 10% 100%,rgba(201,149,96,.12),transparent 60%)}
+@keyframes drift{to{transform:scale(1.08) translate(-1.5%,1%)}}
+.intro>*{position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:14px;font:600 clamp(22px,2.4vw,30px) Fraunces,serif;margin-bottom:clamp(28px,5vh,56px)}
+.mark{width:clamp(40px,4vw,54px);height:clamp(40px,4vw,54px);border-radius:50%;border:2px solid var(--go);color:var(--go);display:grid;place-items:center;box-shadow:0 0 24px rgba(47,240,176,.45),inset 0 0 14px rgba(47,240,176,.25)}
+h1{font:600 clamp(40px,7.2vw,104px)/1.02 Fraunces,serif;letter-spacing:-.01em;max-width:14ch}
+h1 em{font-style:normal;color:var(--go);text-shadow:0 0 36px rgba(47,240,176,.5)}
+.lede{font-size:clamp(16px,1.6vw,22px);color:var(--dim);margin-top:22px;max-width:46ch;line-height:1.45}
+.ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(28px,5vh,48px);align-items:center}
+.play{display:inline-flex;align-items:center;gap:14px;padding:16px 26px 16px 18px;border-radius:999px;background:var(--go);color:#03140e;font-weight:600;font-size:clamp(16px,1.5vw,19px);box-shadow:0 0 0 0 rgba(47,240,176,.6);animation:pulse 2.4s infinite}
+.play i{width:38px;height:38px;border-radius:50%;background:#03140e;display:grid;place-items:center}
+.play i::before{content:"";border-left:13px solid var(--go);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
+@keyframes pulse{70%{box-shadow:0 0 0 18px rgba(47,240,176,0)}100%{box-shadow:0 0 0 0 rgba(47,240,176,0)}}
+.ghost{padding:15px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);backdrop-filter:blur(10px);font-weight:500;text-decoration:none;font-size:clamp(15px,1.4vw,18px)}
+.meta{position:absolute;bottom:max(20px,env(safe-area-inset-bottom));left:max(28px,6vw);font:500 12px 'JetBrains Mono',monospace;letter-spacing:.18em;color:#6f807a;text-transform:uppercase}
+
+/* player chrome */
+.bar{position:absolute;top:max(14px,env(safe-area-inset-top));right:14px;display:flex;gap:8px;opacity:0;transition:opacity .4s;z-index:3}
+.playing .bar{opacity:1}
+.pill{padding:10px 16px;border-radius:999px;background:rgba(4,7,10,.6);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);font-size:14px;font-weight:500;text-decoration:none}
+.pill[aria-pressed=false]{color:#7b8a84}
+.prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.08);z-index:3}
+.prog i{display:block;height:100%;width:0;background:var(--go);box-shadow:0 0 12px var(--go)}
+.nudge{position:absolute;left:50%;bottom:max(28px,calc(env(safe-area-inset-bottom) + 18px));transform:translate(-50%,20px);opacity:0;transition:.5s;z-index:3;white-space:nowrap}
+.nudge.on{opacity:1;transform:translate(-50%,0)}
+
+/* end */
+.end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;background:radial-gradient(800px 500px at 50% 30%,rgba(47,240,176,.14),transparent 60%),rgba(4,7,10,.86);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .7s,visibility .7s;z-index:4}
+.end.on{opacity:1;visibility:visible}
+.end h2{font:600 clamp(34px,5.4vw,76px)/1.05 Fraunces,serif;max-width:16ch}
+.end h2 em{font-style:normal;color:var(--go)}
+.end p{color:var(--dim);margin-top:16px;font-size:clamp(15px,1.5vw,20px)}
+.big{margin-top:34px;display:inline-flex;align-items:center;gap:12px;padding:20px 34px;border-radius:999px;background:var(--go);color:#03140e;font-weight:600;font-size:clamp(18px,1.8vw,22px);text-decoration:none;box-shadow:0 0 50px rgba(47,240,176,.45);animation:pulse 2.4s infinite}
+.again{margin-top:18px;color:var(--dim);text-decoration:underline;text-underline-offset:4px;font-size:15px}
+.hide{opacity:0;visibility:hidden;pointer-events:none}
+.rot{position:absolute;left:50%;top:max(64px,calc(env(safe-area-inset-top) + 56px));transform:translateX(-50%);display:none;z-index:3;white-space:nowrap;font-size:14px;color:var(--dim)}
+@media (orientation:portrait){.playing .rot{display:block;animation:fade 5s forwards}}
+@keyframes fade{0%,70%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.intro::before,.play,.big{animation:none}}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <video id="v" playsinline preload="metadata" poster="poster.jpg" aria-label="Meridian story video">
+    <source src="meridian.mp4" type="video/mp4">
+    <track id="cc" kind="captions" src="meridian.vtt" srclang="en" label="English" default>
+  </video>
+
+  <div class="bar" role="group" aria-label="Video controls">
+    <button class="pill" id="snd" aria-pressed="true">Sound on</button>
+    <button class="pill" id="ccb" aria-pressed="true">CC</button>
+    <a class="pill" href="demo.html">Skip to demo →</a>
+  </div>
+  <div class="pill rot" aria-hidden="true">Turn your phone sideways for full screen</div>
+  <div class="prog" aria-hidden="true"><i id="pg"></i></div>
+  <a class="pill nudge" id="nudge" href="demo.html" style="font-size:16px;padding:12px 22px;color:var(--go);border-color:rgba(47,240,176,.5)">Try the live demo →</a>
+
+  <section class="intro" id="intro">
+    <div class="brand"><span class="mark">M</span>Meridian</div>
+    <h1>Locked in up front. Released on approval. <em>Paid anywhere.</em></h1>
+    <p class="lede">Platforms use Meridian to guarantee pay for contractors abroad, in local currency or digital dollars, through one API.</p>
+    <div class="ctas">
+      <button class="play" id="go"><i aria-hidden="true"></i>Watch the story · 68s</button>
+      <a class="ghost" href="demo.html">Skip to the live demo</a>
+    </div>
+    <div class="meta">Concept demo · No real money moves</div>
+  </section>
+
+  <section class="end" id="end" aria-live="polite">
+    <div class="brand" style="margin-bottom:28px"><span class="mark">M</span>Meridian</div>
+    <h2>Now try it. <em>Four countries, one tap.</em></h2>
+    <p>Send a payout, approve the work, watch it land.</p>
+    <a class="big" href="demo.html">See it live →</a>
+    <button class="again" id="again">Watch again</button>
+  </section>
+</div>
+
+<script>
+const v=document.getElementById('v'),$=id=>document.getElementById(id),stage=$('stage');
+let started=false;
+function start(){
+  started=true;$('intro').classList.add('hide');$('end').classList.remove('on');stage.classList.add('playing');
+  v.currentTime=0;v.muted=false;
+  v.play().catch(()=>{v.muted=true;setSnd();v.play()});setSnd();
+}
+function setSnd(){$('snd').textContent=v.muted?'Sound off':'Sound on';$('snd').setAttribute('aria-pressed',String(!v.muted))}
+$('go').onclick=start;
+$('again').onclick=start;
+$('snd').onclick=()=>{v.muted=!v.muted;setSnd()};
+$('ccb').onclick=()=>{const t=v.textTracks[0];const on=t.mode!=='showing';t.mode=on?'showing':'hidden';$('ccb').setAttribute('aria-pressed',String(on))};
+v.addEventListener('click',()=>{if(!started)return;v.paused?v.play():v.pause()});
+v.addEventListener('timeupdate',()=>{if(!v.duration)return;$('pg').style.width=(100*v.currentTime/v.duration)+'%';$('nudge').classList.toggle('on',v.currentTime>v.duration-10&&!v.paused)});
+v.addEventListener('ended',()=>{stage.classList.remove('playing');$('nudge').classList.remove('on');$('end').classList.add('on')});
+addEventListener('keydown',e=>{if(e.key===' '&&started){e.preventDefault();v.paused?v.play():v.pause()}});
+if(v.textTracks[0])v.textTracks[0].mode='showing';
+</script>
+</body>
+</html>
